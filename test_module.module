@@ -2,7 +2,7 @@
 /**
 * Implementation of hook_form_alter().
 */
-function jm_form_alter(&$form, $form_state, $form_id) {
+function test_module_form_alter(&$form, $form_state, $form_id) {
   if (isset($form['#node']) && $form['#node']->type .'_node_form' == $form_id) {
     $form['buttons']['submit']['#submit'][] = 'jm_redirect_handler';
   }
@@ -15,7 +15,7 @@ function jm_form_alter(&$form, $form_state, $form_id) {
 * @param unknown_type $form_state
 * @return unknown
 */
-function jm_redirect_handler($form, &$form_state) {
+function test_module_redirect_handler($form, &$form_state) {
   if ($form_state['nid']) {
     // reloading as I do not know the node type context. You probably do not need to :), just set the redirect using $form_state['nid']
     $node = node_load(array('nid' => $form_state['nid']));
