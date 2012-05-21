@@ -1,0 +1,28 @@
+<?php
+/**
+* Implementation of hook_form_alter().
+*/
+function jm_form_alter(&$form, $form_state, $form_id) {
+  if (isset($form['#node']) && $form['#node']->type .'_node_form' == $form_id) {
+    $form['buttons']['submit']['#submit'][] = 'jm_redirect_handler';
+  }
+}
+
+/**
+* Attaches the redirect to the submitted form.
+*
+* @param unknown_type $form
+* @param unknown_type $form_state
+* @return unknown
+*/
+function jm_redirect_handler($form, &$form_state) {
+  if ($form_state['nid']) {
+    // reloading as I do not know the node type context. You probably do not need to :), just set the redirect using $form_state['nid']
+    $node = node_load(array('nid' => $form_state['nid']));
+    switch($node->type) {
+      case 'project':
+        $form_state['redirect'] = 'projects/'. $node->nid;
+    }
+  }
+}
+?>
